@@ -3,7 +3,10 @@ export BUILD_TAG ?= local
 export DOCKER_BUILDKIT=1
 export PROJECT_NAME=concourse-worker-cleaner
 
-.PHONY: build 
+.PHONY: build push
 
 build:
-	docker build -t 593291632749.dkr.ecr.eu-west-1.amazonaws.com/${PROJECT_NAME}:${BUILD_TAG} .
+	docker build -t quay.io/mojanalytics/${PROJECT_NAME}:${BUILD_TAG} .
+
+push:
+		docker push quay.io/mojanalytics/${PROJECT_NAME}:${BUILD_TAG}
