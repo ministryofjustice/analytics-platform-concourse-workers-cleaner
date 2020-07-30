@@ -3,12 +3,12 @@ version: "3.7"
 
 services:
   test:
-    image: quay.io/mojanalytics/concourse-worker-cleaner:${BUILD_TAG:-latest}
+    image: 593291632749.dkr.ecr.eu-west-1.amazonaws.com/concourse-worker-cleaner:${BUILD_TAG:-local}
+    entrypoint: ["/bin/sh", "-c", "sleep 600"]
   inspec:
     image: chef/inspec:current
     environment:
       - CHEF_LICENSE=accept-no-persist
-    entrypoint: ["/bin/sh"]  
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./tests:/share/tests
