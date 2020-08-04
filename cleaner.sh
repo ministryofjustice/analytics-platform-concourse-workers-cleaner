@@ -31,11 +31,6 @@ echo "... Login as ${CONCOURSE_ADMIN_USERNAME}"
 fly -t ${CONCOURSE_TARGET} login -n ${CONCOURSE_TEAM} --concourse-url=${CONCOURSE_URL} --username=${CONCOURSE_ADMIN_USERNAME} --password=${CONCOURSE_ADMIN_PASSWORD}
 
 echo "... prune stalled workers"
-if [ $CONCOURSE_TEAM != "main" ]; then
-	# grep on the team name to avoid concurrent prune on shared workers
-	for WORKER in $(fly -t ${CONCOURSE_TARGET} workers | grep stalled | grep $CONCOURSE_TEAM | cut -d' ' -f1); do fly -t ${CONCOURSE_TARGET} prune-worker -w $WORKER; done
-else
-	for WORKER in $(fly -t ${CONCOURSE_TARGET} workers | grep stalled | cut -d' ' -f1); do fly -t ${CONCOURSE_TARGET} prune-worker -w $WORKER; done
-fi
+for WORKER in $(fly -t ${CONCOURSE_TARGET} workers | grep stalled | cut -d' ' -f1); do fly -t ${CONCOURSE_TARGET} prune-worker -w $WORKER; done
 
 echo "### $(date) Done."
